@@ -21,3 +21,16 @@ CREATE TABLE categorias (
 -- =======================
 -- TABELA PRODUTOS 
 -- =======================
+CREATE TABLE produtos (
+	id_produto SERIAL PRIMARY KEY,
+	nome  VARCHAR(150) NOT NULL,
+	descricao TEXT,
+	preco NUMERIC(10,2) NOT NULL,
+	quantidade_estoque INTEGER NOT NULL DEFAULT 0,
+	id_categoria INTEGER NOT NULL,
+	sku VARCHAR(30) UNIQUE NOT NULL, -- Stock Keeping Unit
+
+	CONSTRAINT fk_produto_categoria
+		FOREIGN KEY (id_categoria)
+		REFERENCES categorias(id_categoria)
+);
