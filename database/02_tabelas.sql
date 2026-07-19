@@ -18,6 +18,7 @@ CREATE TABLE categorias (
 	nome VARCHAR(100) UNIQUE NOT NULL,
 	descricao TEXT
 );
+
 -- =======================
 -- TABELA PRODUTOS 
 -- =======================
@@ -33,4 +34,19 @@ CREATE TABLE produtos (
 	CONSTRAINT fk_produto_categoria
 		FOREIGN KEY (id_categoria)
 		REFERENCES categorias(id_categoria)
+);
+
+-- =======================
+-- TABELA PEDIDOS 
+-- =======================
+CREATE TABLE pedidos (
+	id_pedido SERIAL PRIMARY KEY,
+	id_cliente INTEGER NOT NULL,
+	data_pedido TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	status VARCHAR(20) NOT NULL,
+	valor_total NUMERIC(10,2) NOT NULL DEFAULT 0.00,
+
+	CONSTRAINT fk_pedido_cliente
+		FOREIGN KEY (id_cliente)
+		REFERENCES clientes(id_cliente)
 );
