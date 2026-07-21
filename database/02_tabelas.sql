@@ -58,8 +58,8 @@ CREATE TABLE itens_pedido (
 	id_item SERIAL PRIMARY KEY,
 	id_pedido INTEGER NOT NULL,
 	id_produto INTEGER NOT NULL,
-	quantidade INTEGER NOT NULL,
-	preco_unitario NUMERIC(10,2) NOT NULL,
+	quantidade INTEGER NOT NULL CHECK (quantidade > 0),
+	preco_unitario NUMERIC(10,2) NOT NULL CHECK (preco_unitario >= 0),
 	
 	CONSTRAINT fk_item_pedido
 		FOREIGN KEY (id_pedido)
@@ -68,4 +68,20 @@ CREATE TABLE itens_pedido (
 	CONSTRAINT fk_item_produto
 		FOREIGN KEY (id_produto)
 		REFERENCES produtos(id_produto)
+);
+
+-- =======================
+-- TABELA PAGAMENTOS
+-- =======================
+CREATE TABLE pagamentos (
+	id_pagamento SERIAL PRIMARY KEY,
+	id_pedido INTEGER NOT NULL UNIQUE,
+	forma_pagamento VARCHAR(30) NOT NULL,
+	valor NUMERIC(10,2) NOT NULL CHECK (valor >= 0),
+	status VARCHAR(20) NOT NULL,
+	data_pagamento TIMESTAMP, 
+	
+	CONSTRAINT fk_pagamento_pedido
+		FOREIGN KEY (id_pedido)
+		REFERENCES pedidos(id_pedido)
 );
